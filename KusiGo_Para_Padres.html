@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KusiGo para familias</title>
+<meta name="description" content="Qué es KusiGo, cómo se juega y cómo acompañar a tu hijo o hija durante el programa.">
+<style>
+  :root {
+    --brand-100: #fff7ea; --brand-200: #ffeecf; --brand-300: #fbe2b0;
+    --brand-500: #e8a230; --brand-600: #d18b1b; --brand-700: #b4780c;
+    --bg: #fdfbf7; --surface: #ffffff; --surface-2: #fbf7f0; --line: #ede6da;
+    --ink: #1e3a4a; --ink-strong: #16303d; --ink-soft: #4a6274;
+    --ok: #2f8f5b; --ok-bg: #e6f5ec; --info: #3b78b8; --info-bg: #e8f1fa;
+    --shadow: 0 6px 24px rgba(30, 58, 74, .08);
+    --radius: 20px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #121c22; --surface: #1a2830; --surface-2: #16222a; --line: #2b3d47;
+      --ink: #e6eef2; --ink-strong: #ffffff; --ink-soft: #a9bcc7;
+      --brand-100: #2a2316; --brand-200: #3a2e17; --brand-300: #5b4420;
+      --brand-700: #f0b955;
+      --ok: #62c58d; --ok-bg: #173126; --info: #7db4e6; --info-bg: #17293a;
+      --shadow: 0 6px 24px rgba(0, 0, 0, .35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #121c22; --surface: #1a2830; --surface-2: #16222a; --line: #2b3d47;
+    --ink: #e6eef2; --ink-strong: #ffffff; --ink-soft: #a9bcc7;
+    --brand-100: #2a2316; --brand-200: #3a2e17; --brand-300: #5b4420;
+    --brand-700: #f0b955;
+    --ok: #62c58d; --ok-bg: #173126; --info: #7db4e6; --info-bg: #17293a;
+    --shadow: 0 6px 24px rgba(0, 0, 0, .35);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: Nunito, "Segoe UI", system-ui, -apple-system, sans-serif;
+    font-size: 17px; line-height: 1.6;
+  }
+  h1, h2, h3 { color: var(--ink-strong); line-height: 1.2; margin: 0 0 .5em; }
+  h1 { font-size: clamp(2rem, 6vw, 3.4rem); letter-spacing: -.02em; }
+  h2 { font-size: clamp(1.5rem, 4vw, 2.2rem); letter-spacing: -.01em; }
+  h3 { font-size: 1.15rem; }
+  p { margin: 0 0 1em; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+  section { padding: 56px 0; }
+  .eyebrow {
+    display: inline-block; font-weight: 800; font-size: .8rem; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--brand-700); margin-bottom: 10px;
+  }
+  .lead { font-size: 1.15rem; color: var(--ink-soft); max-width: 62ch; }
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 22px; box-shadow: var(--shadow);
+  }
+  .grid { display: grid; gap: 18px; }
+  .g2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+  .g3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .icon-bubble {
+    width: 52px; height: 52px; border-radius: 16px; display: grid; place-items: center;
+    background: var(--brand-200); font-size: 1.7rem; margin-bottom: 12px;
+  }
+  :focus-visible { outline: 3px solid var(--brand-500); outline-offset: 3px; border-radius: 8px; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+
+  /* Nav */
+  .nav {
+    position: sticky; top: 0; z-index: 20; backdrop-filter: blur(10px);
+    background: color-mix(in srgb, var(--bg) 85%, transparent); border-bottom: 1px solid var(--line);
+  }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 58px; gap: 12px; }
+  .brand { font-weight: 900; font-size: 1.25rem; color: var(--ink-strong); text-decoration: none; }
+  .brand span { color: var(--brand-600); }
+  .nav-links { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+  .nav-links a {
+    color: var(--ink-soft); text-decoration: none; font-weight: 700; font-size: .92rem;
+    padding: 6px 12px; border-radius: 999px; white-space: nowrap;
+  }
+  .nav-links a:hover { background: var(--brand-200); color: var(--ink-strong); }
+  .theme-btn {
+    border: 1px solid var(--line); background: var(--surface); border-radius: 999px;
+    width: 38px; height: 38px; flex: none; font-size: 1.1rem;
+  }
+
+  /* Hero */
+  .hero { padding: 48px 0 24px; background: linear-gradient(180deg, var(--brand-100), var(--bg)); }
+  .hero .wrap { display: grid; gap: 32px; align-items: center; grid-template-columns: 1.1fr .9fr; }
+  @media (max-width: 800px) { .hero .wrap { grid-template-columns: 1fr; } }
+  .hero h1 em { font-style: normal; color: var(--brand-600); }
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .pill {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 999px;
+    padding: 6px 14px; font-weight: 700; font-size: .9rem;
+  }
+  .cta {
+    display: inline-block; margin-top: 20px; background: var(--brand-500); color: #16303d;
+    font-weight: 800; padding: 13px 24px; border-radius: 16px; text-decoration: none;
+    box-shadow: 0 4px 0 var(--brand-700); transition: transform .15s;
+  }
+  .cta:hover { transform: translateY(-2px); }
+
+  /* Phone mockup */
+  .phone {
+    width: min(300px, 100%); margin: 0 auto; background: var(--surface); border: 8px solid var(--ink-strong);
+    border-radius: 34px; padding: 14px; box-shadow: var(--shadow);
+  }
+  .screen { background: var(--brand-100); border-radius: 18px; padding: 14px; min-height: 340px; }
+  .screen-title { text-align: center; font-weight: 800; margin-bottom: 12px; color: var(--ink-strong); }
+  .world-card {
+    display: flex; align-items: center; gap: 12px; background: var(--surface); border: 2px solid var(--line);
+    border-radius: 16px; padding: 12px; margin-bottom: 10px; font-weight: 800;
+  }
+  .world-card small { display: block; font-weight: 600; color: var(--ink-soft); }
+  .world-card .emo { font-size: 1.8rem; }
+  .world-card.glow { border-color: var(--brand-500); box-shadow: 0 0 0 4px rgba(232, 162, 48, .25); animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 9px rgba(232, 162, 48, .08); } }
+
+  /* Inti */
+  .inti-row { display: flex; align-items: flex-start; gap: 12px; margin-top: 10px; }
+  .inti {
+    width: 54px; height: 54px; flex: none; border-radius: 50%; background: var(--brand-300);
+    display: grid; place-items: center; font-size: 1.9rem; border: 3px solid var(--brand-500);
+  }
+  .bubble {
+    background: var(--surface); border: 2px solid var(--brand-300); border-radius: 6px 16px 16px 16px;
+    padding: 10px 14px; font-weight: 700; font-size: .95rem; position: relative;
+  }
+
+  /* Domains */
+  .domain-tag {
+    display: inline-block; font-weight: 800; font-size: .78rem; padding: 3px 10px; border-radius: 999px;
+    background: var(--info-bg); color: var(--info); margin-bottom: 10px;
+  }
+  .domain-tag.d2 { background: var(--ok-bg); color: var(--ok); }
+  .faces { display: flex; gap: 10px; margin-top: 12px; }
+  .faces span { font-size: 2rem; background: var(--surface-2); border-radius: 14px; padding: 6px 10px; border: 1px solid var(--line); }
+  .chat { margin-top: 12px; display: grid; gap: 8px; }
+  .chat div { padding: 8px 12px; border-radius: 14px; font-size: .92rem; max-width: 85%; }
+  .chat .them { background: var(--surface-2); border: 1px solid var(--line); }
+  .chat .you { background: var(--ok-bg); color: var(--ink); margin-left: auto; font-weight: 700; }
+
+  /* Worlds */
+  .worlds { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .world { text-align: center; }
+  .world .big { font-size: 3.2rem; display: block; margin-bottom: 6px; }
+  .world .two { display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
+  .world .two span { font-size: .82rem; font-weight: 800; border-radius: 999px; padding: 4px 12px; }
+  .world .two .a { background: var(--info-bg); color: var(--info); }
+  .world .two .b { background: var(--ok-bg); color: var(--ok); }
+
+  /* Demo scene */
+  .demo { max-width: 560px; margin: 28px auto 0; }
+  .demo-note { text-align: center; font-size: .88rem; color: var(--ink-soft); margin-top: 10px; }
+  .scene-pic {
+    background: linear-gradient(160deg, var(--brand-200), var(--brand-300)); border-radius: 16px;
+    padding: 20px; text-align: center; font-size: 3rem; margin-bottom: 12px;
+  }
+  .options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+  .opt {
+    background: var(--surface-2); border: 2px solid var(--line); border-radius: 16px; padding: 12px 4px;
+    font-size: 2.2rem; transition: transform .12s, border-color .12s;
+  }
+  .opt small { display: block; font-size: .8rem; font-weight: 800; color: var(--ink-soft); }
+  .opt:hover { transform: translateY(-3px); border-color: var(--brand-500); }
+  .opt.right { border-color: var(--ok); background: var(--ok-bg); }
+  .opt.again { border-color: var(--brand-500); background: var(--brand-100); }
+  .feedback { min-height: 3.2em; margin-top: 14px; }
+  .feedback .bubble { display: inline-block; }
+
+  /* Timeline */
+  .tl-tabs { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin: 24px 0 6px; }
+  .tl-tab {
+    border: 2px solid var(--line); background: var(--surface); border-radius: 14px; padding: 10px 2px;
+    font-weight: 800; position: relative; transition: transform .12s;
+  }
+  .tl-tab small { display: block; font-size: .7rem; color: var(--ink-soft); font-weight: 700; }
+  .tl-tab[aria-selected="true"] { border-color: var(--brand-500); background: var(--brand-200); transform: translateY(-3px); }
+  .lap-label { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: .8rem; font-weight: 800; color: var(--ink-soft); text-align: center; margin-bottom: 4px; }
+  .lap-label span { border-bottom: 3px solid var(--brand-300); padding-bottom: 2px; }
+  .tl-panel { margin-top: 12px; }
+  .blocks { display: grid; gap: 10px; margin-top: 12px; }
+  .block { display: flex; align-items: center; gap: 12px; border-radius: 14px; padding: 12px 14px; font-weight: 700; }
+  .block.d1 { background: var(--info-bg); } .block.d2 { background: var(--ok-bg); }
+  .block .n { font-size: 1.6rem; }
+  .block small { display: block; font-weight: 600; color: var(--ink-soft); }
+  @media (max-width: 480px) { .tl-tabs { gap: 4px; } .tl-tab small { display: none; } }
+
+  /* Levels */
+  .levels { display: grid; gap: 14px; grid-template-columns: repeat(3, 1fr); margin-top: 22px; }
+  @media (max-width: 640px) { .levels { grid-template-columns: 1fr; } }
+  .level { text-align: center; }
+  .level .stair { font-size: 1.6rem; letter-spacing: .15em; margin-bottom: 6px; }
+  .meter { background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; height: 22px; position: relative; overflow: hidden; margin: 14px 0 6px; }
+  .meter i { position: absolute; inset: 0 auto 0 0; width: 0; background: linear-gradient(90deg, var(--brand-300), var(--brand-500)); transition: width 1.2s ease; }
+  .meter b { position: absolute; left: 80%; top: 0; bottom: 0; border-left: 3px dashed var(--ink-strong); }
+  .meter-labels { display: flex; justify-content: space-between; font-size: .85rem; color: var(--ink-soft); font-weight: 700; }
+  .steps { list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 12px; counter-reset: s; }
+  .steps li { counter-increment: s; display: flex; gap: 12px; align-items: flex-start; }
+  .steps li::before {
+    content: counter(s); flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--brand-500);
+    color: #16303d; font-weight: 900; display: grid; place-items: center;
+  }
+  .callout {
+    background: var(--brand-100); border: 2px dashed var(--brand-300); border-radius: var(--radius);
+    padding: 16px 20px; font-weight: 700; margin-top: 22px;
+  }
+
+  /* Tips */
+  .tip .emo { font-size: 1.8rem; }
+  .tip h3 { margin-top: 6px; }
+  .tip p { color: var(--ink-soft); margin: 0; }
+
+  /* FAQ */
+  .faq { display: grid; gap: 10px; }
+  .faq-item { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+  .faq-q {
+    width: 100%; text-align: left; background: none; border: 0; padding: 16px 18px; font-weight: 800;
+    display: flex; justify-content: space-between; gap: 12px; align-items: center;
+  }
+  .faq-q::after { content: "+"; font-size: 1.5rem; color: var(--brand-600); transition: transform .2s; }
+  .faq-q[aria-expanded="true"]::after { transform: rotate(45deg); }
+  .faq-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .25s ease; }
+  .faq-a > div { overflow: hidden; }
+  .faq-a p { padding: 0 18px 16px; margin: 0; color: var(--ink-soft); }
+  .faq-q[aria-expanded="true"] + .faq-a { grid-template-rows: 1fr; }
+
+  footer { background: var(--surface-2); border-top: 1px solid var(--line); padding: 36px 0; color: var(--ink-soft); font-size: .92rem; }
+
+  /* Reveal */
+  .js-on .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+  .js-on .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .js-on .reveal { opacity: 1; transform: none; transition: none; }
+    .world-card.glow { animation: none; }
+    .meter i { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#inicio">Kusi<span>Go</span></a>
+    <nav class="nav-links" aria-label="Secciones">
+      <a href="#juego">El juego</a>
+      <a href="#mundos">Mundos</a>
+      <a href="#inti">Inti</a>
+      <a href="#sesiones">Sesiones</a>
+      <a href="#niveles">Niveles</a>
+      <a href="#casa">En casa</a>
+      <a href="#faq">Preguntas</a>
+    </nav>
+    <button class="theme-btn" id="themeBtn" aria-label="Cambiar entre tema claro y oscuro" title="Cambiar tema">🌓</button>
+  </div>
+</header>
+
+<main id="inicio">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">Para familias</span>
+        <h1>Practicar emociones y conversaciones, <em>jugando</em>.</h1>
+        <p class="lead">KusiGo es un videojuego pensado para fortalecer habilidades socioemocionales en niños y niñas con TEA nivel 1. Siempre se juega acompañado de su terapeuta.</p>
+        <div class="pill-row">
+          <span class="pill">🎮 Es un juego, no un examen</span>
+          <span class="pill">🧑‍⚕️ Guiado por el terapeuta</span>
+          <span class="pill">🐢 Al ritmo de cada niño</span>
+        </div>
+        <a class="cta" href="#juego">Conocer el juego</a>
+      </div>
+      <div class="phone reveal" aria-label="Maqueta ilustrativa de la pantalla de mundos">
+        <div class="screen">
+          <div class="screen-title">¿A dónde vamos hoy?</div>
+          <div class="world-card glow"><span class="emo">🏫</span><span>El Colegio<small>Hoy te toca aquí</small></span></div>
+          <div class="world-card"><span class="emo">🏘️</span><span>El Barrio<small>Después</small></span></div>
+          <div class="world-card"><span class="emo">🏠</span><span>La Familia<small>Por último</small></span></div>
+          <div class="inti-row">
+            <div class="inti" aria-hidden="true">🌞</div>
+            <div class="bubble">¡Hola! Soy Inti. Toca el mundo que brilla.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUÉ ES -->
+  <section id="juego">
+    <div class="wrap">
+      <span class="eyebrow">El juego</span>
+      <h2>¿Qué es KusiGo?</h2>
+      <p class="lead">Una serie de pequeñas situaciones de la vida diaria, contadas con dibujos y voz, donde el niño practica algo muy concreto: entender cómo se sienten los demás y qué responder en una conversación.</p>
+      <div class="grid g3" style="margin-top:24px">
+        <div class="card reveal"><div class="icon-bubble">🎲</div><h3>Es un juego</h3><p>Escenas cortas, personajes amables y respuestas para tocar. No hay tiempo límite ni castigos.</p></div>
+        <div class="card reveal"><div class="icon-bubble">🤝</div><h3>Con acompañamiento</h3><p>El terapeuta decide qué se juega, ve cómo le fue y aprueba cada avance.</p></div>
+        <div class="card reveal"><div class="icon-bubble">🪜</div><h3>Paso a paso</h3><p>Todos empiezan en el nivel 1. La dificultad sube de a poco y solo cuando el terapeuta lo decide.</p></div>
+      </div>
+
+      <h2 style="margin-top:56px">¿Qué se practica?</h2>
+      <div class="grid g2" style="margin-top:18px">
+        <div class="card reveal">
+          <span class="domain-tag">Juego 1 · Reconocimiento emocional</span>
+          <h3>¿Cómo se siente?</h3>
+          <p>El niño observa una situación o una cara y elige la emoción que corresponde. Aprende a reconocer alegría, tristeza, enojo, sorpresa y otras.</p>
+          <div class="faces" aria-hidden="true"><span>😄</span><span>😢</span><span>😠</span><span>😲</span></div>
+        </div>
+        <div class="card reveal">
+          <span class="domain-tag d2">Juego 2 · Comunicación social</span>
+          <h3>¿Qué respondo?</h3>
+          <p>El niño escucha a un personaje y elige qué contestar. También practica mantener una conversación de ida y vuelta.</p>
+          <div class="chat" aria-hidden="true">
+            <div class="them">¿Quieres jugar con nosotros?</div>
+            <div class="you">¡Sí, gracias!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MUNDOS -->
+  <section id="mundos" style="background:var(--surface-2)">
+    <div class="wrap">
+      <span class="eyebrow">Los lugares</span>
+      <h2>Tres mundos de la vida real</h2>
+      <p class="lead">Las escenas ocurren en lugares que el niño conoce. En cada mundo juega los dos juegos, con 9 escenas cada uno.</p>
+      <div class="worlds" style="margin-top:24px">
+        <div class="card world reveal"><span class="big">🏫</span><h3>El Colegio</h3><p>Trabajo en grupo, el recreo, el almuerzo, llegar a clase.</p><div class="two"><span class="a">😊 Emociones</span><span class="b">💬 Conversar</span></div></div>
+        <div class="card world reveal"><span class="big">🏘️</span><h3>El Barrio</h3><p>La tienda, el parque, los vecinos y los amigos de la cuadra.</p><div class="two"><span class="a">😊 Emociones</span><span class="b">💬 Conversar</span></div></div>
+        <div class="card world reveal"><span class="big">🏠</span><h3>La Familia</h3><p>La cocina, el almuerzo del domingo y las historias de casa.</p><div class="two"><span class="a">😊 Emociones</span><span class="b">💬 Conversar</span></div></div>
+      </div>
+
+      <h2 style="margin-top:56px">Pruébalo tú</h2>
+      <p class="lead">Así se ve una escena. Toca una opción para ver cómo responde el juego.</p>
+      <div class="card demo">
+        <div class="scene-pic" aria-hidden="true">🏠 🍽️ 👩</div>
+        <p><strong>Ejemplo ilustrativo.</strong> Mamá sirve el almuerzo del domingo y toda la familia está sonriendo. ¿Cómo se siente Mamá?</p>
+        <div class="options" id="options">
+          <button class="opt" data-ok="1"><span aria-hidden="true">😄</span><small>Contenta</small></button>
+          <button class="opt"><span aria-hidden="true">😢</span><small>Triste</small></button>
+          <button class="opt"><span aria-hidden="true">😠</span><small>Enojada</small></button>
+        </div>
+        <div class="feedback" id="feedback" aria-live="polite"></div>
+      </div>
+      <p class="demo-note">Si el niño se equivoca no pasa nada: se le invita a intentarlo de nuevo, sin regaños.</p>
+    </div>
+  </section>
+
+  <!-- INTI -->
+  <section id="inti">
+    <div class="wrap">
+      <div class="grid g2" style="align-items:center">
+        <div>
+          <span class="eyebrow">Su compañero de juego</span>
+          <h2>Conoce a Inti</h2>
+          <p class="lead">Inti es el guía del juego. Saluda al niño la primera vez, le explica de qué se trata y le muestra a dónde ir en cada sesión, para que nunca se sienta perdido.</p>
+          <ul class="steps">
+            <li><span><strong>Explica con calma.</strong> Frases cortas y voz amable.</span></li>
+            <li><span><strong>Señala el camino.</strong> «Hoy te toca El Colegio.»</span></li>
+            <li><span><strong>Aliento sin presión.</strong> No dice si acertó o falló; invita a seguir.</span></li>
+          </ul>
+        </div>
+        <div class="card reveal">
+          <div class="inti-row"><div class="inti" aria-hidden="true">🌞</div><div class="bubble">¡Hola! Me llamo Inti y voy a acompañarte.</div></div>
+          <div class="inti-row"><div class="inti" aria-hidden="true">🌞</div><div class="bubble">Aquí hay tres mundos: El Colegio, El Barrio y La Familia.</div></div>
+          <div class="inti-row"><div class="inti" aria-hidden="true">🌞</div><div class="bubble">¡Terminaste este mundo! Avisa a tu terapeuta.</div></div>
+          <p class="demo-note" style="text-align:left;margin-top:14px">Ilustración de ejemplo; el personaje definitivo puede verse distinto.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SESIONES -->
+  <section id="sesiones" style="background:var(--surface-2)">
+    <div class="wrap">
+      <span class="eyebrow">El recorrido</span>
+      <h2>Seis sesiones, dos vueltas</h2>
+      <p class="lead">El programa dura 6 sesiones. Se recorren los tres mundos una vez, y luego una segunda vez. Toca cada sesión para ver qué se juega.</p>
+
+      <div class="lap-label"><span>1.ª vuelta</span><span>2.ª vuelta</span></div>
+      <div class="tl-tabs" role="tablist" aria-label="Sesiones del programa" id="tabs"></div>
+      <div class="card tl-panel" id="tlPanel" role="tabpanel" aria-live="polite"></div>
+
+      <div class="callout">⏱️ Cada sesión dura entre 15 y 30 minutos: dos bloques de 9 escenas (emociones y conversación) del mismo mundo.</div>
+
+      <h3 style="margin-top:36px">Antes y después: pre-test y post-test</h3>
+      <p>Al inicio de la primera sesión y al final de la última, el niño juega una vez las mismas 6 escenas. Sirve para que el terapeuta vea qué cambió. <strong>Durante estos tests el juego no dice si acertó o no</strong>; el resultado solo lo ve el terapeuta.</p>
+    </div>
+  </section>
+
+  <!-- NIVELES -->
+  <section id="niveles">
+    <div class="wrap">
+      <span class="eyebrow">Cómo se avanza</span>
+      <h2>Tres niveles, un paso a la vez</h2>
+      <p class="lead">Cada mundo y cada juego tienen su propio nivel. Avanzar en El Colegio no sube el nivel de El Barrio.</p>
+
+      <div class="levels">
+        <div class="card level reveal"><div class="stair" aria-hidden="true">▁</div><h3>Nivel 1</h3><p>Punto de partida para todos los niños.</p></div>
+        <div class="card level reveal"><div class="stair" aria-hidden="true">▁▃</div><h3>Nivel 2</h3><p>Las mismas escenas con un poco más de reto.</p></div>
+        <div class="card level reveal"><div class="stair" aria-hidden="true">▁▃▆</div><h3>Nivel 3</h3><p>Un reto extra, solo si el niño va con holgura y hay tiempo en la sesión.</p></div>
+      </div>
+
+      <div class="card" style="margin-top:22px">
+        <h3>¿Cuándo se propone subir de nivel?</h3>
+        <p>Cuando el niño acierta <strong>8 de cada 10 escenas o más</strong> (con 9 escenas, a lo sumo 2 errores).</p>
+        <div class="meter" id="meter" aria-hidden="true"><i></i><b></b></div>
+        <div class="meter-labels"><span>0 %</span><span>80 % · se propone subir</span><span>100 %</span></div>
+        <div class="callout">👩‍⚕️ El juego solo <em>propone</em>. <strong>Quien decide si el niño sube, repite o se queda es siempre el terapeuta.</strong></div>
+      </div>
+
+      <h3 style="margin-top:36px">¿Y si no se llega al 80 %?</h3>
+      <ol class="steps">
+        <li><span>Se repite el mismo bloque. Las escenas son las mismas, pero <strong>las respuestas cambian de lugar</strong>.</span></li>
+        <li><span>Se puede repetir hasta 2 veces.</span></li>
+        <li><span>Después, el terapeuta decide: seguir en el mismo nivel, bajar o cerrar ese bloque.</span></li>
+      </ol>
+      <p class="demo-note" style="text-align:left">Repetir no es un fracaso: es practicar con calma lo que todavía cuesta.</p>
+    </div>
+  </section>
+
+  <!-- TERAPEUTA -->
+  <section style="background:var(--surface-2)">
+    <div class="wrap">
+      <span class="eyebrow">El terapeuta</span>
+      <h2>Qué hace el terapeuta durante el programa</h2>
+      <div class="grid g3" style="margin-top:22px">
+        <div class="card reveal"><div class="icon-bubble">📊</div><h3>Ve el reporte</h3><p>Consulta cómo le fue al niño en cada sesión y en el pre y post-test.</p></div>
+        <div class="card reveal"><div class="icon-bubble">✅</div><h3>Aprueba los avances</h3><p>Revisa la propuesta del juego y decide si se sube, se repite o se baja de nivel.</p></div>
+        <div class="card reveal"><div class="icon-bubble">📝</div><h3>Registra apoyos y notas</h3><p>Anota qué ayuda usó el niño (repetir la pregunta, dar ejemplos, un gesto) y observaciones sobre su conducta y su regulación emocional.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EN CASA -->
+  <section id="casa">
+    <div class="wrap">
+      <span class="eyebrow">Para la familia</span>
+      <h2>Cómo pueden acompañar en casa</h2>
+      <p class="lead">No hace falta saber de videojuegos ni de terapia. Estas ideas ayudan a que lo aprendido se note en el día a día.</p>
+      <div class="grid g3" style="margin-top:22px">
+        <div class="card tip reveal"><span class="emo">🗣️</span><h3>Pongan nombre a las emociones</h3><p>«Te veo contento» o «parece que te enojaste». Lo que se nombra, se entiende.</p></div>
+        <div class="card tip reveal"><span class="emo">🎉</span><h3>Celebren el esfuerzo</h3><p>Valoren que lo intentó, más que el resultado. Repetir también cuenta.</p></div>
+        <div class="card tip reveal"><span class="emo">🧘</span><h3>Sin presionar</h3><p>Si hoy no tiene ganas, está bien. Las sesiones las organiza el terapeuta.</p></div>
+        <div class="card tip reveal"><span class="emo">💬</span><h3>Conversen de lo cotidiano</h3><p>Preguntas simples: «¿Cómo te fue en el recreo?». Escuchen con calma y sin apuro.</p></div>
+        <div class="card tip reveal"><span class="emo">📣</span><h3>Cuéntenle al terapeuta</h3><p>Si notan frustración, cansancio o algo que les llame la atención, compártanlo.</p></div>
+        <div class="card tip reveal"><span class="emo">🔁</span><h3>Constancia, no velocidad</h3><p>Cada niño avanza a su ritmo. Comparar con otros no ayuda.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" style="background:var(--surface-2)">
+    <div class="wrap" style="max-width:760px">
+      <span class="eyebrow">Dudas comunes</span>
+      <h2>Preguntas frecuentes</h2>
+      <div class="faq" id="faq-list">
+        <div class="faq-item"><button class="faq-q" aria-expanded="false">¿KusiGo reemplaza la terapia?</button><div class="faq-a"><div><p>No. Es una herramienta de apoyo que se usa junto con el terapeuta, quien decide cómo y cuándo se juega.</p></div></div></div>
+        <div class="faq-item"><button class="faq-q" aria-expanded="false">¿Cuánto dura cada sesión?</button><div class="faq-a"><div><p>Entre 15 y 30 minutos: dos bloques de 9 escenas, uno de emociones y otro de conversación, del mismo mundo.</p></div></div></div>
+        <div class="faq-item"><button class="faq-q" aria-expanded="false">¿Mi hijo o hija puede jugar solo?</button><div class="faq-a"><div><p>El programa está pensado para jugarse en las sesiones con el terapeuta, que es quien guía qué se juega y registra los avances.</p></div></div></div>
+        <div class="faq-item"><button class="faq-q" aria-expanded="false">¿Qué pasa si se equivoca o se frustra?</button><div class="faq-a"><div><p>El juego no castiga ni regaña: Inti lo invita a intentar de nuevo con un mensaje amable. Si el niño se frustra, el terapeuta puede pausar, dar apoyo o repetir.</p></div></div></div>
+        <div class="faq-item"><button class="faq-q" aria-expanded="false">¿Se puede repetir una escena o un nivel?</button><div class="faq-a"><div><p>Sí. Si no se alcanza el 80 %, se repite el bloque hasta 2 veces; las respuestas cambian de lugar para que no sea solo memoria.</p></div></div></div>
+        <div class="faq-item"><button class="faq-q" aria-expanded="false">¿Quién decide si pasa al siguiente nivel?</button><div class="faq-a"><div><p>Siempre el terapeuta. El juego solo hace una propuesta cuando el niño llega al 80 % de aciertos.</p></div></div></div>
+        <div class="faq-item"><button class="faq-q" aria-expanded="false">¿Qué información se guarda?</button><div class="faq-a"><div><p>Los resultados del juego que el terapeuta ve en su reporte (por ejemplo, aciertos por escena) y sus propias notas. Para dudas sobre el manejo de datos, pregunta directamente al terapeuta o al equipo de KusiGo.</p></div></div></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p><strong>KusiGo</strong> apoya el trabajo terapéutico, pero no sustituye la evaluación ni la terapia profesional. Ante cualquier duda sobre el desarrollo de tu hijo o hija, consulta a su terapeuta.</p>
+    <p>Las imágenes de esta página son ilustraciones de ejemplo y pueden diferir del juego final.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  document.documentElement.classList.add("js-on");
+
+  // Tema claro/oscuro (preferencia del sistema; el botón lo cambia, sin guardarlo)
+  var root = document.documentElement;
+  document.getElementById("themeBtn").addEventListener("click", function () {
+    var dark = root.getAttribute("data-theme") === "dark" ||
+      (!root.getAttribute("data-theme") && matchMedia("(prefers-color-scheme: dark)").matches);
+    root.setAttribute("data-theme", dark ? "light" : "dark");
+  });
+
+  // Aparición al hacer scroll
+  var reveals = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+    }, { threshold: .15 });
+    reveals.forEach(function (el) { io.observe(el); });
+  } else {
+    reveals.forEach(function (el) { el.classList.add("in"); });
+  }
+
+  // Demo de escena
+  var fb = document.getElementById("feedback");
+  document.getElementById("options").addEventListener("click", function (ev) {
+    var btn = ev.target.closest(".opt");
+    if (!btn) return;
+    var ok = btn.getAttribute("data-ok") === "1";
+    document.querySelectorAll(".opt").forEach(function (o) { o.classList.remove("right", "again"); });
+    btn.classList.add(ok ? "right" : "again");
+    fb.innerHTML = '<div class="inti-row"><div class="inti" aria-hidden="true">🌞</div><div class="bubble">' +
+      (ok ? "¡Muy bien! Mamá está contenta." : "Casi. Mira otra vez la cara de Mamá e inténtalo de nuevo.") + "</div></div>";
+  });
+
+  // Línea de tiempo de sesiones: 1.ª vuelta = nivel 1; 2.ª vuelta = nivel según el avance de cada combinación
+  var mundos = [["🏫", "El Colegio"], ["🏘️", "El Barrio"], ["🏠", "La Familia"]];
+  var tabs = document.getElementById("tabs"), panel = document.getElementById("tlPanel");
+  function pintar(i) {
+    var m = mundos[i % 3], vuelta = i < 3 ? 1 : 2;
+    var nivel = vuelta === 1
+      ? "Empiezan en el <strong>nivel 1</strong>."
+      : "Cada juego continúa en el nivel que le tocó según el avance de la primera vuelta (el terapeuta lo aprueba). Si queda tiempo y el niño va con holgura, puede jugarse un bloque extra del nivel siguiente.";
+    var extra = i === 5 ? '<div class="block" style="background:var(--brand-100)"><span class="n">🏁</span><span>Post-test<small>Al terminar los dos bloques</small></span></div>' : "";
+    var pre = i === 0 ? '<div class="block" style="background:var(--brand-100)"><span class="n">📋</span><span>Pre-test<small>Al comenzar la sesión</small></span></div>' : "";
+    panel.innerHTML =
+      '<h3>Sesión ' + (i + 1) + " · " + m[0] + " " + m[1] + ' <small style="color:var(--ink-soft);font-weight:700">(' + vuelta + '.ª vuelta)</small></h3>' +
+      '<div class="blocks">' + pre +
+      '<div class="block d1"><span class="n">😊</span><span>Primero: reconocimiento emocional<small>9 escenas · 8 a 15 min</small></span></div>' +
+      '<div class="block d2"><span class="n">💬</span><span>Después: comunicación social<small>9 escenas · 8 a 15 min</small></span></div>' +
+      extra + "</div><p style=\"margin:14px 0 0;color:var(--ink-soft)\">" + nivel + "</p>";
+    tabs.querySelectorAll(".tl-tab").forEach(function (t, k) { t.setAttribute("aria-selected", k === i ? "true" : "false"); });
+  }
+  for (var i = 0; i < 6; i++) {
+    (function (i) {
+      var b = document.createElement("button");
+      b.className = "tl-tab"; b.setAttribute("role", "tab"); b.setAttribute("aria-selected", "false");
+      b.innerHTML = "S" + (i + 1) + "<small>" + mundos[i % 3][0] + "</small>";
+      b.addEventListener("click", function () { pintar(i); });
+      tabs.appendChild(b);
+    })(i);
+  }
+  pintar(0);
+
+  // Medidor del 80 %
+  var meter = document.querySelector("#meter i");
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (e, o) { if (e[0].isIntersecting) { meter.style.width = "80%"; o.disconnect(); } }, { threshold: .6 })
+      .observe(document.getElementById("meter"));
+  } else { meter.style.width = "80%"; }
+
+  // FAQ
+  document.getElementById("faq-list").addEventListener("click", function (ev) {
+    var q = ev.target.closest(".faq-q");
+    if (!q) return;
+    q.setAttribute("aria-expanded", q.getAttribute("aria-expanded") === "true" ? "false" : "true");
+  });
+})();
+</script>
+</body>
+</html>
